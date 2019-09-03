@@ -1,16 +1,16 @@
 class Button {
-  constructor(speech) {
-    this.radius = 50;
-    this.x = width - 50;
-    this.y = height - 50;
-    this.speech = speech;
+  constructor({action, radius, x, y}) {
+    this.radius = radius;
+    this.x = x - this.radius;
+    this.y = y - this.radius;
+    this.action = action;
   }
 
   clicked() {
     const distance = dist(mouseX, mouseY, this.x, this.y);
 
     if (distance < this.radius) {
-      this.speech.start();
+      this.action()
     }
   }
 
