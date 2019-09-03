@@ -1,8 +1,15 @@
 const speechRec = new p5.SpeechRec();
 const width = 1900;
 const height = 975;
+
+const actionsRegex = /\b(move|move to|go to|go)\b/g;
+const hasDirectionsRegex = /\b(move|move to|go to|go)\s(the)?\s?(right|left|up|down)\b/g;
+const directionsRegex = /\b(right|left|up|down)\b/g;
+const negationRegex = /\b(do not|don't|not)\s(move|go to|go)\b/g;
+
+const actions = ["move", "go to", "go"];
 const directions = ["up", "down", "left", "right"];
-const negations = ['not', 'do not', 'don\'t'];
+const negations = ["not", "do not ", "don't"];
 
 let recordBtn = {};
 let character = {};
@@ -32,33 +39,29 @@ function gotSpeech() {
     return;
   }
 
-  const result = speechRec.resultString.toLowerCase();
+  console.log(speechRec.resultString);
+  const speech = speechRec.resultString.toLowerCase();
+  const action = actionsRegex.exec(speech);
 
-  const moveWordIndex = result.indexOf('move');
-  const hasMoveWord = moveWordIndex !== -1;
-
-  if (!hasMoveWord) {
+  if (!action) {
     return;
   }
 
-  const hasNegation = negations.find(negation => {
-    const index = result.indexOf(negation)
-    return moveWordIndex > index;
-  })
+  const hasNegation = negationRegex.test(speech);
 
   if (hasNegation) {
     return;
   }
 
-  const direction = directions.find(
-    direction => result.indexOf(direction) != -1
-  );
+  const hasDirection = hasDirectionsRegex.test(speech);
 
-  if (direction === -1) {
+  if (!hasDirection) {
     return;
   }
 
-  moveCharacter(direction);
+  const direction = directionsRegex.exec(speech)
+
+  moveCharacter(direction[0]);
 }
 
 function mousePressed() {
@@ -66,7 +69,7 @@ function mousePressed() {
 }
 
 function moveCharacter(direction) {
-  switch (keyCode || direction) {
+  switch (direction) {
     case LEFT_ARROW:
     case "left":
       character.left();
