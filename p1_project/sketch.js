@@ -2,6 +2,7 @@ const speechRec = new p5.SpeechRec();
 const width = 1900;
 const height = 975;
 const directions = ["up", "down", "left", "right"];
+const negations = ['not', 'do not', 'don\'t'];
 
 let recordBtn = {};
 let character = {};
@@ -32,6 +33,22 @@ function gotSpeech() {
   }
 
   const result = speechRec.resultString.toLowerCase();
+
+  const moveWordIndex = result.indexOf('move');
+  const hasMoveWord = moveWordIndex !== -1;
+
+  if (!hasMoveWord) {
+    return;
+  }
+
+  const hasNegation = negations.find(negation => {
+    const index = result.indexOf(negation)
+    return moveWordIndex > index;
+  })
+
+  if (hasNegation) {
+    return;
+  }
 
   const direction = directions.find(
     direction => result.indexOf(direction) != -1
