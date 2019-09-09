@@ -20,22 +20,18 @@ export default class Cell {
     this.p5.strokeWeight(2);
     this.p5.stroke(255);
 
-    // Top
     if (this.hasWall.up) {
       this.p5.line(x, y, x + this.width, y);
     }
 
-    // Right
     if (this.hasWall.right) {
       this.p5.line(x + this.width, y, x + this.width, y + this.width);
     }
 
-    // Bottom
     if (this.hasWall.down) {
       this.p5.line(x + this.width, y + this.width, x, y + this.width);
     }
 
-    // Left
     if (this.hasWall.left) {
       this.p5.line(x, y + this.width, x, y);
     }
