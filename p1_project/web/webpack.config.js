@@ -13,7 +13,6 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     stats: "minimal",
-    port: 9000,
-    disableHostCheck: true
+    port: 9000
   }
 };

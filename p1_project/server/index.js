@@ -10,11 +10,11 @@ const app = express();
 
 app.use(cors());
 app.use((_, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:9000");
   next();
 });
 app.use(bodyParser.json());
@@ -46,7 +46,6 @@ app.post("/", async (req, res) => {
   const responses = await sessionClient.detectIntent(request);
   const result = responses[0].queryResult;
 
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:9000");
   return res.send(result);
 });
 
